@@ -74,7 +74,6 @@ function initFormHandler() {
 	//            submit button is clicked
 	form.addEventListener('submit', (e) => {
 		e.preventDefault();
-		alert("TEST");
 		// Steps B4-B9 will occur inside the event listener from step B3
 		// B4. TODO - Create a new FormData object from the <form> element reference above
 		const formData = new FormData(form);
