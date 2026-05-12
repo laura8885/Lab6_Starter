@@ -7,8 +7,10 @@ window.addEventListener("DOMContentLoaded", init);
 function init() {
 	// Get the recipes from localStorage
 	let recipes = getRecipesFromStorage();
+
 	// Add each recipe to the <main> element
 	addRecipesToDocument(recipes);
+
 	// Add the event listeners to the form elements
 	initFormHandler();
 }
@@ -21,7 +23,7 @@ function init() {
  * @returns {Array<Object>} An array of recipes found in localStorage
  */
 function getRecipesFromStorage() {
-	return JSON.parse(localStorage.getItem('recipes')) || [];
+	return JSON.parse(localStorage.getItem("recipes")) || [];
 }
 
 /**
@@ -32,60 +34,55 @@ function getRecipesFromStorage() {
  * @param {Array<Object>} recipes An array of recipes
  */
 function addRecipesToDocument(recipes) {
-	const main = document.querySelector('main');
+	const main = document.querySelector("main");
 
-	recipes.forEach(recipe => {
-		const recipeCard = document.createElement('recipe-card');
-		recipeCard.data = recipe;
-		main.appendChild(recipeCard);
+	recipes.forEach((recipe) => {
+		const card = document.createElement("recipe-card");
+		card.data = recipe;
+		main.appendChild(card);
 	});
 }
 
 /**
- * Takes in an array of recipes, converts it to a string, and then
- * saves that string to 'recipes' in localStorage
+ * Saves recipes array into localStorage
  * @param {Array<Object>} recipes An array of recipes
  */
 function saveRecipesToStorage(recipes) {
-	localStorage.setItem('recipes', JSON.stringify(recipes));
+	localStorage.setItem("recipes", JSON.stringify(recipes));
 }
 
 /**
- * Adds the necessary event handlers to <form> and the clear storage
- * <button>.
+ * Adds the necessary event handlers to <form> and the clear storage button.
  */
 function initFormHandler() {
-	const form = document.querySelector('form');
+	const form = document.querySelector("#new-recipe");
 
-	form.addEventListener('submit', (e) => {
-		e.preventDefault();
+	form.addEventListener("submit", (event) => {
+		event.preventDefault();
 
 		const formData = new FormData(form);
 
 		const recipeObject = {};
-		formData.forEach((value, key) => {
+		for (let [key, value] of formData.entries()) {
 			recipeObject[key] = value;
-		});
+		}
 
-		const recipeCard = document.createElement('recipe-card');
-		recipeCard.data = recipeObject;
-		document.querySelector('main').appendChild(recipeCard);
+		const newCard = document.createElement("recipe-card");
+		newCard.data = recipeObject;
 
-		const recipes = getRecipesFromStorage();
+		document.querySelector("main").appendChild(newCard);
+
+		let recipes = getRecipesFromStorage();
 		recipes.push(recipeObject);
 		saveRecipesToStorage(recipes);
 
 		form.reset();
 	});
 
-	// Get clear button (IMPORTANT: must be inside this function)
-	const clearButton = document.querySelector('button.danger');
+	const clearButton = document.querySelector("button.danger");
 
-	// Safety check (prevents "cannot find variable" issues)
-	if (clearButton) {
-		clearButton.addEventListener('click', () => {
-			localStorage.clear();
-			document.querySelector('main').innerHTML = '';
-		});
-	}
+	clearButton.addEventListener("click", () => {
+		localStorage.clear();
+		document.querySelector("main").innerHTML = "";
+	});
 }
