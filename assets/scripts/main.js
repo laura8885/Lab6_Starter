@@ -78,10 +78,14 @@ function initFormHandler() {
 		form.reset();
 	});
 
+	// Get clear button (IMPORTANT: must be inside this function)
 	const clearButton = document.querySelector('button.danger');
 
-	clearButton.addEventListener('click', () => {
-		localStorage.clear();
-		document.querySelector('main').innerHTML = '';
-	});
+	// Safety check (prevents "cannot find variable" issues)
+	if (clearButton) {
+		clearButton.addEventListener('click', () => {
+			localStorage.clear();
+			document.querySelector('main').innerHTML = '';
+		});
+	}
 }
