@@ -33,65 +33,65 @@ class RecipeCard extends HTMLElement {
 			}
 
 			article {
-				align-items: flex-start;
-				display: flex;
-				height: 150px;
-				margin: 16px;
-				padding: 16px;
-				width: 400px;
-			}
-
-			img {
-				border-radius: 5px;
-				flex: 0 0 150px;
-				height: 150px;
-				object-fit: cover;
-				width: 150px;
-			}
-
-			div {
-				flex: 1;
-				margin-left: 25px;
-			}
-
-			p {
-				margin: 0;
-			}
-
-			.organization {
-				color: #800080;
-				font-size: 0.9em;
-				margin-bottom: 30px;
-				text-transform: uppercase;
-			}
-
-			.rating {
 				align-items: center;
+				border: 1px solid rgb(223, 225, 229);
+				border-radius: 8px;
+				display: grid;
+				grid-template-rows: 118px 56px 14px 18px 15px 36px;
+				height: auto;
+				row-gap: 5px;
+				padding: 0 16px 16px 16px;
+				width: 178px;
+			}
+
+			div.rating {
+				align-items: center;
+				column-gap: 5px;
 				display: flex;
 			}
 
-			.rating-icon {
-				color: #800080;
+			div.rating > img {
+				height: auto;
+				display: inline-block;
+				object-fit: scale-down;
+				width: 78px;
 			}
 
-			.rating-value {
-				font-size: 1.5em;
-				font-weight: bold;
-				margin-left: 5px;
-				margin-right: 5px;
+			article > img {
+				border-top-left-radius: 8px;
+				border-top-right-radius: 8px;
+				height: 118px;
+				object-fit: cover;
+				margin-left: -16px;
+				width: calc(100% + 32px);
 			}
 
-			.rating-count {
-				color: #656565;
-				font-size: 0.9em;
+			p.ingredients {
+				height: 32px;
+				line-height: 16px;
+				padding-top: 4px;
+				overflow: hidden;
 			}
 
+			p.organization {
+				color: black !important;
+			}
+
+			p.title {
+				display: -webkit-box;
+				font-size: 16px;
+				height: 36px;
+				line-height: 18px;
+				overflow: hidden;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
+
+			p:not(.title),
+			span,
 			time {
-				color: #656565;
-			}
-
-			.ingredients {
-				margin-top: 20px;
+				color: #70757A;
+				font-size: 12px;
 			}
 		`;
 
@@ -135,20 +135,21 @@ class RecipeCard extends HTMLElement {
 		//           Remember to replace all the placeholders in the template with the data passed in.
 		//           i.e. imgSrc, titleLnk, etc
 		article.innerHTML = `
-			<img src="${data.imgSrc}" alt="${data.imgAlt}">
-			<div>
-				<p class="organization">${data.organization}</p>
-				<h2>
-					<a href="${data.titleLnk}">${data.titleTxt}</a>
-				</h2>
-				<p class="rating">
-					<span class="rating-icon">⭐</span>
-					<span class="rating-value">${data.rating}</span>
-					<span class="rating-count">${data.numRatings} Ratings</span>
-				</p>
-				<time>${data.lengthTime}</time>
-				<p class="ingredients">${data.ingredients}</p>
+			<img src="${data.imgSrc}"
+				alt="${data.imgAlt}">
+			<p class="title">
+				<a href="${data.titleLnk}">${data.titleTxt}</a>
+			</p>
+			<p class="organization">${data.organization}</p>
+			<div class="rating">
+				<span>${data.rating}</span>
+				<img src="assets/images/icons/${data.rating}-star.svg" alt="${data.rating} stars">
+				<span>(${data.numRatings})</span>
 			</div>
+			<time>${data.lengthTime}</time>
+			<p class="ingredients">
+				${data.ingredients}
+			</p>
 		`;
 	}
 }
